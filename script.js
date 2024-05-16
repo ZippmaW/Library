@@ -18,8 +18,8 @@ function displayBooks() {
 }
 
 addBookToLibrary("Kevin", "Lajf", "1337", "not read");
-addBookToLibrary("Kevinus", "Lajfer", "1331", "not read");
-addBookToLibrary("Kevinas", "Lajfas", "1333", "not read");
-addBookToLibrary("Kevinur", "Lajfur", "1335", "not read");
+addBookToLibrary("Kevin1", "Lajf1", "1331", "not read");
+addBookToLibrary("Kevin2", "Lajf2", "1333", "not read");
+addBookToLibrary("Kevin3", "Lajf3", "1335", "not read");
 
 displayBooks();
