@@ -1,5 +1,40 @@
 "use strict";
 
+document.addEventListener("DOMContentLoaded", () => {
+  const showDial = document.getElementById("new-book");
+  const dialog = document.getElementById("dialog");
+  const closeDial = document.getElementById("close");
+  const submitForm = document.getElementById("submit");
+  const authorInput = document.getElementById("author");
+  const titleInput = document.getElementById("title");
+  const pagesInput = document.getElementById("pages");
+  const checkboxInput = document.getElementById("checkbox");
+  const formDiv = document.getElementById("form");
+
+  showDial.addEventListener("click", () => {
+    dialog.showModal();
+  });
+
+  closeDial.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.close();
+  });
+
+  submitForm.addEventListener("click", (e) => {
+    e.preventDefault();
+    addBookToLibrary(
+      authorInput.value,
+      titleInput.value,
+      pagesInput.value,
+      checkboxInput.checked ? "read" : "not read"
+    );
+
+    displayBooks();
+    formDiv.reset();
+    dialog.close();
+  });
+});
+
 const myLibrary = [];
 
 function Book(author, title, pages, read) {
@@ -14,12 +49,20 @@ function addBookToLibrary(author, title, pages, read) {
 }
 
 function displayBooks() {
-  myLibrary.map((item) => console.table(item));
+  const libraryDiv = document.getElementById("library");
+  const bookHTML = myLibrary
+    .map((book) => {
+      return `
+    <div class="book">
+      <fieldset>
+        <p>Author: ${book.author}</p>
+        <p>Title: ${book.title}</p>
+        <p>Pages: ${book.pages}</p>
+        <pStatus>: ${book.read}</pStatus>
+      </fieldset>
+    </div>
+    `;
+    })
+    .join("");
+  libraryDiv.innerHTML = bookHTML;
 }
-
-addBookToLibrary("Kevin", "Lajf", "1337", "not read");
-addBookToLibrary("Kevin1", "Lajf1", "1331", "not read");
-addBookToLibrary("Kevin2", "Lajf2", "1333", "not read");
-addBookToLibrary("Kevin3", "Lajf3", "1335", "not read");
-
-displayBooks();
