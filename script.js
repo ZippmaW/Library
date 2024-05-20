@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       authorInput.value,
       titleInput.value,
       pagesInput.value,
-      checkboxInput.checked ? "read" : "not read"
+      checkboxInput.checkBoxStatus
     );
 
     displayBooks();
@@ -59,7 +59,8 @@ function displayBooks() {
     <p>Author: ${book.author}</p>
     <p>Title: ${book.title}</p>
     <p>Pages: ${book.pages}</p>
-    <pStatus>: ${book.read}</pStatus>
+    <p>Status: ${book.Status}</pStatus>
+    <button class="btn-read" data-index="${index}">read</button>
     <button class="btn-remove" data-index="${index}">remove</button>
     </fieldset>
     </div>
@@ -68,13 +69,30 @@ function displayBooks() {
     .join("");
   libraryDiv.innerHTML = bookHTML;
 
+  Array.from(document.querySelectorAll(".btn-read")).map((button) => {
+    button.addEventListener("click", (e) => {
+      const bookIndex = parseInt(e.target.getAttribute("data-index"));
+      toggleRead(bookIndex);
+      displayBooks();
+    });
+  });
+
   Array.from(document.querySelectorAll(".btn-remove")).map((button) => {
     button.addEventListener("click", (e) => {
-      const bookIndex = e.target.getAttribute("data-index");
+      const bookIndex = parseInt(e.target.getAttribute("data-index"));
+      console.log(bookIndex);
       removeBook(bookIndex);
       displayBooks();
     });
   });
+}
+
+function toggleRead(index) {
+  if (myLibrary[index].Status === "read") {
+    myLibrary[index].Status = "not read";
+  } else {
+    myLibrary[index].Status = "read";
+  }
 }
 
 function removeBook(index) {
