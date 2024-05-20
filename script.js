@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     displayBooks();
+    console.table(myLibrary);
     formDiv.reset();
     dialog.close();
   });
@@ -51,18 +52,31 @@ function addBookToLibrary(author, title, pages, read) {
 function displayBooks() {
   const libraryDiv = document.getElementById("library");
   const bookHTML = myLibrary
-    .map((book) => {
+    .map((book, index) => {
       return `
     <div class="book">
-      <fieldset>
-        <p>Author: ${book.author}</p>
-        <p>Title: ${book.title}</p>
-        <p>Pages: ${book.pages}</p>
-        <pStatus>: ${book.read}</pStatus>
-      </fieldset>
+    <fieldset>
+    <p>Author: ${book.author}</p>
+    <p>Title: ${book.title}</p>
+    <p>Pages: ${book.pages}</p>
+    <pStatus>: ${book.read}</pStatus>
+    <button class="btn-remove" data-index="${index}">remove</button>
+    </fieldset>
     </div>
     `;
     })
     .join("");
   libraryDiv.innerHTML = bookHTML;
+
+  Array.from(document.querySelectorAll(".btn-remove")).map((button) => {
+    button.addEventListener("click", (e) => {
+      const bookIndex = e.target.getAttribute("data-index");
+      removeBook(bookIndex);
+      displayBooks();
+    });
+  });
+}
+
+function removeBook(index) {
+  myLibrary.splice(index, 1);
 }
