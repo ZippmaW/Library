@@ -22,15 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   submitForm.addEventListener("click", (e) => {
     e.preventDefault();
+
+    let addCheck = "";
+    checkboxInput.checked ? (addCheck = "read") : (addCheck = "not read");
+
     addBookToLibrary(
       authorInput.value,
       titleInput.value,
       pagesInput.value,
-      checkboxInput.checkBoxStatus
+      addCheck
     );
-
     displayBooks();
-    console.table(myLibrary);
     formDiv.reset();
     dialog.close();
   });
@@ -49,6 +51,16 @@ function addBookToLibrary(author, title, pages, read) {
   myLibrary.push(new Book(author, title, pages, read));
 }
 
+function toggleRead(index) {
+  myLibrary[index].read === "read"
+    ? (myLibrary[index].read = "not read")
+    : (myLibrary[index].read = "read");
+}
+
+function removeBook(index) {
+  myLibrary.splice(index, 1);
+}
+
 function displayBooks() {
   const libraryDiv = document.getElementById("library");
   const bookHTML = myLibrary
@@ -59,7 +71,7 @@ function displayBooks() {
     <p>Author: ${book.author}</p>
     <p>Title: ${book.title}</p>
     <p>Pages: ${book.pages}</p>
-    <p>Status: ${book.Status}</pStatus>
+    <p>Status: ${book.read}</p>
     <button class="btn-read" data-index="${index}">read</button>
     <button class="btn-remove" data-index="${index}">remove</button>
     </fieldset>
@@ -85,16 +97,4 @@ function displayBooks() {
       displayBooks();
     });
   });
-}
-
-function toggleRead(index) {
-  if (myLibrary[index].Status === "read") {
-    myLibrary[index].Status = "not read";
-  } else {
-    myLibrary[index].Status = "read";
-  }
-}
-
-function removeBook(index) {
-  myLibrary.splice(index, 1);
 }
